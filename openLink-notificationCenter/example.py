@@ -3,7 +3,7 @@ import BigWorld
 from gui.SystemMessages import SM_TYPE
 from gui.SystemMessages import pushMessage
 from notification.settings import NOTIFICATION_TYPE
-from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
+from gui.Scaleform.daapi.view.lobby.hangar.Hangar import Hangar
 from notification.actions_handlers import NotificationsActionsHandlers
 
 def new_handleAction(self, model, typeID, entityID, actionName):
@@ -16,8 +16,8 @@ def new_handleAction(self, model, typeID, entityID, actionName):
 old_handleAction = NotificationsActionsHandlers.handleAction
 NotificationsActionsHandlers.handleAction = new_handleAction
 
-def NewLobbyView_populate(self):
-    OldLobbyView_populate(self)
+def NewLobbyView_populate(self, base=Hangar._Hangar__onVehicleLoaded):
+    base(self)
     global Show
     if not Show:
         Show = True
@@ -25,5 +25,5 @@ def NewLobbyView_populate(self):
 
 
 Show = False
-OldLobbyView_populate = LobbyView._populate
-LobbyView._populate = NewLobbyView_populate
+
+Hangar._Hangar__onVehicleLoaded = NewLobbyView_populate
